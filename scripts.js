@@ -176,8 +176,6 @@ $(document).ready(function(){
 	var toDoList = new ToDoList($('#to-do-list'));
 	toDoList.init();
 
-	console.log(toDoList);
-
 	$('.datepicker').datepicker();
 
 	$('#task-modal').on('show.bs.modal', function (e) {
