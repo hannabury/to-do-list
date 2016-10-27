@@ -1,0 +1,154 @@
+ <!DOCTYPE html>
+<html>
+	<head>
+		<title>To Do List</title>
+
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js" type="text/javascript"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+		<script src="handlebars-v4.0.5.js" type="text/javascript"></script>
+		<script src="scripts.js" type="text/javascript"></script>
+
+		<link href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link href="style.css" rel="stylesheet">
+	</head>
+	<body>
+		<div class="container">
+			<div id="to-do-list">
+				<h1>To Do List</h1>
+
+				<div class="row">
+					<div class="col-md-3 col-sm-4">
+						<form action="#" id="add-group-form">
+							<h2>Add a new group</h2>
+							
+							<div class="form-group">
+								<label for="group-name">Name</label>
+								<input type="text" id="group-name" name="name" class="form-control">
+							</div>
+							
+							<button type="submit" class="btn btn-success">Add group</button>
+						</form>
+						<form action="#" id="add-task-form" class="validate">
+							<h2>Add a new task</h2>
+							
+							<div class="form-group">
+								<label for="task-title">Title</label>
+								<input type="text" id="task-title" name="title" class="form-control">
+							</div>
+							
+							<div class="form-group">
+								<label for="task-due-date">Due date</label>
+								<input type="text" id="task-due-date" name="dueDate" class="datepicker form-control">
+							</div>
+
+							<div class="form-group">
+								<label for="task-assignee">Assignee</label>
+								<input type="text" id="task-assignee" name="assignee" class="form-control">
+							</div>
+
+							<div class="form-group">
+								<label for="task-priority">Priority</label>
+								<select id="task-priority" name="priority" class="form-control">
+									<option value="low">low</option>
+									<option value="normal">normal</option>
+									<option value="high">high</option>
+								</select>
+							</div>
+
+							<div class="form-group">
+								<label for="task-comments">Comments</label>
+								<textarea id="task-comments" name="comments" class="form-control"></textarea>
+							</div>
+
+							<button type="submit" class="btn btn-primary">Add task</button>
+						</form>
+					</div>
+					<div class="col-md-9 col-sm-8">
+						<div class="group-wrapper row">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="task-modal" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+		<script id="group-template" type="text/x-handlebars-template">
+			<div class="col-md-4 col-sm-6"><ul class="group" id="{{name}}"><li class="group-name">{{name}}</li></ul></div>
+		</script>
+
+		<script id="task-template" type="text/x-handlebars-template">
+			<li class="task priority-{{priority}}" id="{{id}}" data-toggle="modal" data-target="#task-modal">
+				<span class="priority-wrapper">
+					<span class="priority glyphicon glyphicon-certificate" aria-hidden="true"></span>
+					<span class="priority glyphicon glyphicon-certificate" aria-hidden="true"></span>
+					<span class="priority glyphicon glyphicon-certificate" aria-hidden="true"></span>
+				</span>
+				<span class="title">{{title}}</span>
+				<span class="due-date">{{dueDate}}</span> / <span class="assignee">{{assignee}}</span>
+				<a href="#" class="btn btn-xs btn-danger btn-remove"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+			</li>
+		</script>
+
+		<script id="modal-template" type="text/x-handlebars-template">
+			<div class="modal-header priority-{{priority}}">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">
+					<span class="priority-wrapper">
+						<span class="priority glyphicon glyphicon-certificate" aria-hidden="true"></span>
+						<span class="priority glyphicon glyphicon-certificate" aria-hidden="true"></span>
+						<span class="priority glyphicon glyphicon-certificate" aria-hidden="true"></span>
+					</span>
+					{{title}}
+				</h4>
+				<small>Created on: {{createDate}}</small>
+			</div>
+			<form action="#" class="validate">
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="task-title">Title</label>
+						<input type="text" id="task-title" name="title" class="form-control" value="{{title}}">
+					</div>
+
+					<div class="form-group">
+						<label for="task-due-date">Due date</label>
+						<input type="text" id="task-due-date" name="dueDate" class="datepicker form-control" value={{dueDate}}>
+					</div>
+
+					<div class="form-group">
+						<label for="task-assignee">Assignee</label>
+						<input type="text" id="task-assignee" name="assignee" class="form-control" value={{assignee}}>
+					</div>
+
+					<div class="form-group">
+						<label for="task-priority">Priority</label>
+						<select id="task-priority" name="priority" class="form-control">
+							<option value="low" {{#if_eq priority "low"}}selected{{/if_eq}}>low</option>
+							<option value="normal" {{#if_eq priority "normal"}}selected{{/if_eq}}>normal</option>
+							<option value="high" {{#if_eq priority "high"}}selected{{/if_eq}}>high</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="task-comments">Comments</label>
+						<textarea id="task-comments" name="comments" class="form-control">{{comments}}</textarea>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger btn-remove">Remove</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary btn-save">Save changes</button>
+				</div>
+			</form>
+		</script>
+	</body>
+</html> 
