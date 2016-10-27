@@ -120,7 +120,7 @@ $(document).ready(function(){
 				this.createDate = createDate;
 			};
 
-			this.setdueDate = function(dueDate) {
+			this.setDueDate = function(dueDate) {
 				this.dueDate = dueDate;
 			};
 
